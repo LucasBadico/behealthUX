@@ -1,0 +1,625 @@
+import pubsub from 'raptor-pubsub';
+
+class {
+    onCreate(input){
+      Number.prototype.formatMoney = function(c, d, t){
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+         };
+
+      this.state = {
+        substancia: [
+          {
+            type:'search',
+            value:''
+          }
+        ],
+        receipes:1,
+        cacheReceipes:[],
+        cacheSubstance: {},//uso para fazer a busca de substancia
+        cacheSubsComp: {},
+        cart:[],
+        upload:[],
+        images:[],
+        cartTotal: (0).formatMoney(2,',','.'),
+        notListed:false,
+        showSearch: 'true'
+      }
+
+      this.state['id'] = (function(a) {
+        if(a > 1){return false}
+        return "words";
+      })(this.state.substancia)
+    }
+
+    onMount(){
+      var self = this;
+      var pharmacie = '424a8f61-3e2f-44d4-b6a5-f321269f5b7d';
+
+      Number.prototype.formatMoney = function(c, d, t){
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+         };
+
+      pubsub.on('chooseSubstance',function(key,value,key2,value2) {
+        console.log('chooseSubstance',key, value);
+        self.state.cacheSubstance[key] = value;
+        self.state.cacheSubsComp[key2] = {unid : value2, qtd: value};
+      })
+
+      pubsub.on('uploadReceipe', function(id){
+        self.state.upload.push(id);
+      })
+
+      pubsub.on('setQtd',function(data) {
+        // console.log('chooseSubstance',key, value);
+        // console.log(data);
+        self.state.cart[data.target].qtd = data.value;
+        var total = 0;
+
+        console.log(self.state.cart);
+
+        for(var i = 0; i < self.state.cart.length; i++){
+          console.log('item',self.state.cart[i]);
+          if(self.state.cart[i].label != 'Formula não Listada'){
+            total += self.state.cart[i].qtd *  self.state.cart[i].price;
+            console.log('total',total);
+          }else{
+            self.state.notListed = true;
+          }
+
+
+        }
+
+        // self.state.cart.forEach(function(item){
+        //   total += parseInt(item.qtd) *  parseInt(item.price);
+        //   console.log(total, item);
+        // })
+
+        self.state.cartTotal  = (total).formatMoney(2, ',', '.');
+        self.setStateDirty('cartTotal');
+      });
+
+      pubsub.on('chooseMedicine',function(data) {
+        self.state.cart.push(data);
+        self.setStateDirty('cart');
+      })
+    }
+
+    onUpdate(){
+      if(this.state.cart.length < 1 && this.state.images.length < 1 ){
+        this.state.showSearch = 'true';
+      }else {
+        this.state.showSearch = 'false';
+      }
+    }
+
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    addSubstancia(event){
+      this.state.substancia
+                  .push({
+                    type:'search',
+                    value:''
+                  });
+      this.setStateDirty('substancia')
+      console.log(this.state.substancia);
+    }
+
+    searchFormula(event){
+      console.log('search formula',this.state.cacheSubstance);
+      //chamada ajax para o endpoint
+
+      var self = this;
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'https://behealthbrasil.com.br/api/search/medicine/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+              xhr.onreadystatechange = function () {
+                  if (this.readyState != 4) return;
+
+                  if (this.status == 200) {
+                      // we get the returned data
+                      console.log(this.responseText);
+                      var medicine = JSON.parse(this.responseText);
+                      if(medicine){
+                        self.state.cart.push(medicine);
+                        self.setStateDirty('cart');
+                      }else{
+                        var keys = [];
+                        console.log('cached comp',self.state.cacheSubsComp)
+                        for(var prop in self.state.cacheSubsComp){
+                            keys.push( ' ' +prop
+                              +  ' ' + self.state.cacheSubsComp[prop].qtd
+                              + ' ' + self.state.cacheSubsComp[prop].unid
+                            )
+                        }
+                        console.log('new comp',self.state.cacheSubsComp,keys)
+
+                        var item = {label:'Formula não Listada',
+                                    composition: keys,
+                                    keys:self.state.cacheSubstance,
+                                    qtd:0
+                                    };
+
+
+                                    self.state.cart.push(item);
+                                    self.setStateDirty('cart');
+
+                                    self.state.notListed = true;
+                      }
+
+                    console.log(self.state.cart);
+
+                    self.state.substancia =  [
+                      {
+                        type:'search',
+                        value:''
+                      }
+                    ];
+                  }
+                  // end of state change: it can be after some time (async)
+              };
+      console.log('sendData',self.state.cacheSubstance);
+      var sendData = JSON.stringify(self.state.cacheSubstance)
+      xhr.send(sendData);
+
+    }
+
+    addcart() {
+      var item = this.state.cart[0];
+      pubsub.emit('onAddCartItem',{item:item});
+
+      this.state = {
+        substancia: [
+          {
+            type:'search',
+            value:''
+          }
+        ],
+        receipes:1,
+        cacheReceipes:[],
+        cacheSubstance: {},//uso para fazer a busca de substancia
+        cacheSubsComp: {},
+        cart:[],
+        upload:[],
+        images:[],
+        cartTotal: (0).formatMoney(2,',','.'),
+        notListed:false
+      }
+    }
+
+    clear() {
+      this.state.substancia =  [{
+                                  type:'search',
+                                  value:''
+                                }];
+      this.state.receipes = 1;
+      this.state.cacheReceipes = [];
+      this.state.cacheSubstance = {};//uso para fazer a busca de substancia
+      this.state.cacheSubsComp = {};
+      this.state.cart = [];
+      this.state.upload = [];
+      this.state.images = [];
+      this.state.cartTotal = (0).formatMoney(2,',','.');
+      this.state.notListed = false;
+
+      // this.forceUpdate({
+      //     removeNode: true, //true by default
+      //     recursive: true //true by default
+      // })
+    //   this.rerender();
+    //  this.replaceState(newState)
+
+    }
+
+    preorder(){
+      console.log(this.state.cart);
+      //cria uma preorder na base, recebe o id como resposta
+      var xhr = new XMLHttpRequest();
+
+        xhr.open("PUT", 'https://behealthbrasil.com.br/api/order', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                  // console.log(this.readyState, this.status);
+                    if (this.readyState != 4) return false;
+
+                    if (this.status == 200) {
+                      pubsub.emit('showModal',{type:'preorder',thisid:this.responseText});
+                    }
+                };
+             var data ={
+               cart: this.state.cart,
+               receipes: this.state.upload
+             }
+        xhr.send(JSON.stringify(data));
+
+      this.emit('click', {
+          event: event // Pass along the DOM event in case it is helpful to others
+      });
+
+    }
+
+    removeItem(i){
+      console.log('remove',i);
+      this.state.cart.splice(i,1);
+      this.setStateDirty('cart');
+
+    }
+
+    showPanel(id){
+      console.log(id);
+      console.log(this.target);
+
+      $('.active').removeClass('active');
+      var id = $(this.target).data('id');
+      console.log('id',id);
+      $(this.target).addClass('active');
+      $('#'+id).addClass('active');
+    }
+
+    sendPhoto(evt){
+        console.info('evento ->',evt.target.files);
+          var self = this;
+          var files = evt.target.files;
+          var formData = new FormData();
+              formData.append('file', files[0]);
+
+              console.log(formData);
+              $.ajax({
+                     url : 'https://behealthbrasil.com.br/api/receipe',
+                     type : 'POST',
+                     data : formData,
+                     processData: false,  // tell jQuery not to process the data
+                     contentType: false,  // tell jQuery not to set contentType
+                     success : function(data) {
+                        console.info('files',data);
+
+                        var imageUrl = 'data:' + data.type + ';base64,' + Buffer.from(data.file).toString('base64');
+                        // console.log('blob',blob)
+                        self.state.images.push(imageUrl);
+                        self.setStateDirty('images');
+
+                        pubsub.emit('uploadReceipe', data.id);
+
+                     }
+              });
+        }
+
+}
+
+style {
+
+  .true{
+    display:block;
+  }
+
+  .false{
+    display:none;
+  }
+
+  #hero .intro_title p {
+    text-shadow: 2px 2px 2px rgba(100, 100, 100, 1);
+  }
+
+  .message {
+    background-color: lightgoldenrodyellow;
+    font-weight: 600;
+    text-align: center;
+    padding: 3px 0;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+
+  .error {
+    color: white;
+    background-color: red;
+  }
+
+  #table td{
+    vertical-align: middle !important;
+  }
+
+  .price-value {
+    font-size: 32px;
+    font-weight: 600;
+
+  }
+
+  .mo{
+    padding: 2px 4px;
+    border: 2px solid #82ca9c;
+    margin-left: 9px;
+    top: -6px;
+    position: relative;
+    color: white;
+    font-weight: 600;
+    background: #82ca9c;
+
+  }
+
+  .mo2{
+    padding: 2px 4px;
+    /* border: 2px solid #82ca9c; */
+    margin-left: 9px;
+    top: 11px;
+    left: -129px;
+    position: relative;
+    font-weight: 600;
+  }
+
+  .receipe{
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .photoIcon:before {
+    content: "ou";
+    position: absolute;
+    display: flex;
+    padding-left: 4px;
+    padding-top: 2px;
+    border-radius: 100%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    vertical-align: initial;
+    color: white;
+    font-weight: 800;
+    top: 40%;
+    background: rgb(150,150,150);
+    text-transform: capitalize;
+    left: -13px;
+  }
+
+  .photoIcon {
+    border-left: 1px solid rgba(0,0,0,0.3);
+    margin-left: 35px;
+    padding: 0;
+    padding-left: 19px;
+  }
+
+}
+
+<section id="search_container">
+  <div id="search">
+    <div id="hero" style="position: relative; height: inherit; background: none;
+      background-size: cover; color: #fff; width: 100%; font-size: 16px; display: table; z-index: 99; text-align: center;  text-transform: uppercase;">
+      <div class="intro_title" style=" padding-bottom: 5%; padding-top: 5%;">
+        <h3  style="font-weight: bolder;" class="animated fadeInDown">Compare e compre <span style="color:white;">manipulados</span> no único <span style="color:white;">comparador de preços</span> do Brasil</h3>
+        <p class="animated fadeInDown">Seguro. Rápido. Prático e sempre pelo menor preço! </p>
+      </div>
+    </div>
+    <ul class="nav nav-tabs">
+      <!-- <li class="active" on-click('showPanel') data-id="buscar">
+        <a><i class="icon-edit-alt"></i> Buscar</a>
+      </li>
+      <li on-click('showPanel') data-id="photo">
+        <a href="#photo" data-toggle="tab"><i class="icon-camera-7"></i> Enviar Receita</a>
+      </li> -->
+      <!--<li><a href="#transfers" data-toggle="tab">Transfers</a></li>
+        <li><a href="#restaurants" data-toggle="tab">Restaurants</a></li> -->
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="buscar">
+        <div class=["row",state.showSearch]>
+
+          <div class="col-xs-12 col-sm-7" style="margin-right: -5%;  margin-left: -5%;">
+            <h3 style="margin-left: 5%;">Faça sua busca pela composição do medicamento, substância a substância</h3>
+          <div-col-form-substancia for(i from 1 to state.substancia.length) number=[i] type=state.substancia[i-1].type search=state.substancia[i-1].value />
+
+          <div class="" style=" padding: 0 15px;  padding-bottom: 13px;">
+            <div class="form-group col-xs-12" style="position: static;">
+              <button class="btn_1 green outline btn-block" on-click('addSubstancia')>
+                <i class="icon-plus"></i> Outra substância
+              </button>
+            </div>
+
+            <div class="form-group col-xs-12">
+              <button class="btn_1 green btn-block" on-click('searchFormula')>
+                <i class="icon-search-1"></i> Buscar <span> Formúla </span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-5 photoIcon">
+            <h3>Envie nos sua receita.</h3>
+          <div class="col-xs-12" style="padding:0;">
+
+                    <div class="col-xs-12">
+                       <div class="form-group">
+                         <label>Tire uma foto</label>
+                         <input on-change('sendPhoto') type="file" name="file-6"   class="form-control" style="padding-left: 17px; padding-top: 10px; position: relative; z-index:100;background-color: transparent;">
+                         <label for="file-6" style="position: absolute; top: 36px;">
+                         <span style="width:165px"></span>
+                         <strong style="    background-color: #15aa7b; width: 170px; text-align: center; padding: 10px; color: white; border-radius: 3px; margin-left: 3px;">
+                         <i class="icon-camera-7"></i> Tire uma foto&hellip;</strong></label>
+                       </div>
+                     </div>
+
+                     <div class="col-xs-12">
+                       <div class="form-group">
+                         <label>Faça upload</label>
+                         <input on-change('sendPhoto') class="form-control" name="file-7" type="file" style=" padding-left: 60px; padding-top: 11px; position: relative; z-index:100;background-color: transparent;">
+                         <label for="file-7" style=" padding: 0px; line-height: 35px; margin-top: 2px; position: absolute; top: 26px;">
+                           <span style="width:165px"></span>
+                           <strong style="fill:white;background-color: #15aa7b; padding: 10px; padding-right: 15px; margin-left: 3px; border-radius: 2px;color: white;">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                               <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+                             </svg>
+                             Escolha um arquivo&hellip;
+                           </strong>
+                         </label>
+                       </div>
+                     </div>
+                </div>
+
+        </div>
+          <!-- <div-col-form-substancia for(i from 1 to state.substancia.length) number=[i] type=state.substancia[i-1].type search=state.substancia[i-1].type/> -->
+
+          <!--<div class="col-md-3">
+            <div class="form-group">
+                <label>Qtd</label>
+            <input type="text" class="form-control" id="qtd" name="qtd" placeholder="ml, mg, etc">
+               </div>
+            </div>-->
+          <!-- <script src="js/typing.js"></script>
+          <script>
+            // var strings = new Array("www.yourdomain.com")
+            var strings = new Array("Fenasterida 10mg", "Ou", "complexo vitaminíco", "Queratina", "Escreva a sua primeira substância"); // This is multi words
+            var typingSpeed = 100;
+            var deleteSpeed = 40;
+            var isLoop = true;
+            var isPlaceholder = true;
+          </script> -->
+        </div>
+        <!-- End row -->
+        <div class="row" if(state.cart.length > 0)>
+          <div style="padding: 15px;">
+            <p class=["message","col-xs-12",state.messageType] style="margin-right:10px;">
+              Se essa é a formula que você procura, selecione a quantidade e adicione-a ao seu carrinho.
+            </p>
+            <table class="table table-hover" id="table">
+              <thead>
+                <tr>
+                  <th  class="col-md-2">Nome</th>
+                  <th class="col-md-3">Fórmula</th>
+                  <th  class="col-md-4">Quantidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr for(i from 0 to state.cart.length-1)>
+                  <td>
+                    ${state.cart[i].label}
+                  </td>
+                  <td>
+                    ${state.cart[i].composition}
+                  </td>
+                  <td>
+                    <app-number-spinner value=state.cart[i].qtd index=i />
+                    ${state.cart[i].unidade}
+                  </td>
+
+                  <!-- <td>
+                    <a class="btn_1 outline small btn-danger" on-click('removeItem',i)><i class="icon-cancel-7" ></i> excluir</a>
+                  </td> -->
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <if(state.notListed)>
+          <div class="col-xs-12">
+
+            <button class="btn_1 green outline col-xs-4" style=" top: 7px; position: relative; margin-bottom: 10px;" on-click('preorder') >
+              <i class="icon-email"></i> Pedir orçamento
+            </button>
+          </div>
+          </if>
+
+          <else>
+
+            <div class="col-xl-12" style="margin-bottom: 20px;  margin-left: 20px;">
+              <span class="price-value">R$ ${state.cartTotal}</span>
+              <span class="mo"> seu menor preço </span>
+              <span class="mo2">pelas ${state.cart[0].qtd} ${state.cart[0].unidade}</span>
+            </div>
+
+          <div class="col-xs-12">
+
+
+            <button class="btn_1 green col-xs-5" style=" position: relative; margin-bottom: 10px;" on-click('addcart') style="margin-right:10px;">
+              <i class="icon-plus"></i> Addicionar ao carrinho
+            </button>
+
+            <button class="btn_1 green outline col-xs-5" style="position: relative; margin-bottom: 10px;" on-click('clear') >
+                <i class="icon-search-1"></i> Buscar outra formula
+              </button>
+          </div>
+
+          <!-- <div class="col-xs-12 col-sm-8">
+            <span class="price-value">R$ ${state.cartTotal}</span>
+            <span class="mo"> seu menor preço</span>
+          </div> -->
+        </else>
+
+        </div>
+        <!-- End row -->
+
+        <div class="row" if(state.images.length > 0)>
+          <h2 class="receipe">Suas receitas</h2>
+          <p class=["message","col-xs-12",state.messageType] style="margin-right:10px;margin-top:20px;">
+           Se precisar envie outro arquivo.
+          </p>
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>Faça upload</label>
+              <input on-change('sendPhoto') class="form-control" name="file-7" type="file" style=" padding-left: 60px; padding-top: 11px; position: relative; z-index:100;background-color: transparent;">
+              <label for="file-7" style=" padding: 0px; line-height: 35px; margin-top: 2px; position: absolute; top: 26px;">
+                <span style="width:165px"></span>
+                <strong style="fill:white;background-color: #15aa7b; padding: 10px; padding-right: 15px; margin-left: 3px; border-radius: 2px;color: white;">
+                <i class="icon-upload"></i>
+                  Escolha um arquivo&hellip;
+                </strong>
+              </label>
+            </div>
+          </div>
+                              <div class="col-xs-6">
+                                 <div class="form-group">
+                                   <label>Tire uma foto</label>
+                                   <input on-change('sendPhoto') type="file" name="file-6"   class="form-control" style="padding-left: 17px; padding-top: 10px; position: relative; z-index:100;background-color: transparent;">
+                                   <label for="file-6" style="position: absolute; top: 36px;">
+                                   <span style="width:165px"></span>
+                                   <strong style="    background-color: #15aa7b; width: 170px; text-align: center; padding: 10px; color: white; border-radius: 3px; margin-left: 3px;">
+                                   <i class="icon-camera-7"></i> Tire uma foto&hellip;</strong></label>
+                                 </div>
+                               </div>
+
+          <div class="col-xs-6 col-sm-4" for(item in state.images)>
+            <img src=item class="img-responsive" />
+          </div>
+
+                               <div class="col-xs-12">
+                                 <p class=["message","col-xs-12",state.messageType] style="margin-right:10px; margin-top: -20px;">
+                                   Assim que tiver terminado de subir as receitas, clique em pedir orçamento
+                                 </p>
+                                 <button class="btn_1 green col-xs-5" style=" position: relative; margin-bottom: 10px;" on-click('preorder') style="margin-right:10px;">
+                                   <i class="icon-email"></i> Pedir Orçamento
+                                 </button>
+
+                                 <button class="btn_1 green outline col-xs-5" style="position: relative; margin-bottom: 10px;" on-click('clear') >
+                                     <i class="icon-search-1"></i> Reiniciar a busca
+                                   </button>
+                               </div>
+        </div>
+      </div>
+      <div class="row">
+        <hr>
+      <a class="btn_1 green outline" style=" top: 7px; position: relative; margin-bottom: 10px;" href="/cart" >
+          <i class="icon-cart"></i> ir para o carrinho
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

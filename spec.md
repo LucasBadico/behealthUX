@@ -1,0 +1,147 @@
+# Draft da documentação
+
+## Tecnologias
+Koajs, rethinkdb, cookie sessions(por enquanto). 
+## Estrutura
+* config/
+	* config.js
+* core/
+	* component[template]
+		* index.js (theController)
+		* model.js 
+		* test.js
+	* users [exemplo]
+		* index.js (theController)
+		* model.js 
+		* test.js	
+	* sessions
+	* pharmacies
+	* substances
+	* medicines
+	* products
+	* supliers
+	* orders
+* docs/
+* public/
+	* css/
+	* img/
+	* js/
+* test/
+* utils/
+	* rethinkdb.js
+* views/
+
+## Flavor
+- Qualquer trecho passivel de repeticao vira uma variavel na seguinte ordem, const, let e em ultimo caso var.
+- Tudo começa nos testes. E todos os testes começam com o descritivo.
+
+
+## Components
+* ** Controllers(as index) ** - 
+	Envolvem os models dando methodos a eles
+* ** Models ** -
+	Tem o acesso a database, retornam e definem os objetos.
+	Alguns modelos acessam 2 sets de dados, como o de farmacia que acessa o usuário da farmacia, e dai acesa o endereço.
+* ** Test ** - 
+	Tests que envolvem os modulos e controllers
+	
+## Database - RethinkDB
+Uma database relativamente nova, mas a cara de startups, por que ela está evoluindo enquanto escrevo isso.
+
+* migrations
+	- para criar uma nova tabela :
+	`rethink-migrate create add-sometable`
+
+	- para subir a database
+	`rethink-migrate up`
+	
+	- para parar a database
+	`rethink-migrate down`
+
+## docs
+Como eu faço para prototipar o created\_at e o updated\_at?
+
+### users - Usuários
+
+```
+{
+	"id":  "ab200997-bd8f-4d1e-a4e8-7937e71465a1" ,
+	"created_at": r.now(),
+	"updated_at": r.now()
+	"email": "mayara.azevedo@gmail.com",
+	"firstname":  "Mayara" ,
+	"fullname":  "Mayara Azevedo" ,
+	"password":  "secret" ,
+	"role": 1 ,
+	"tel": 11900001111 ,
+}
+```
+Esse tel no futuro pode ser usado para recuperar os dados.
+O firstname é extraído do fullName.
+
+Então nosso formulário de cadastro só pega 3 dados:
+
+	- NOME
+	- EMAIL
+	- TELEFONE
+
+	E pede para cadastrar uma senha.
+
+Role [papel] - é um codigo com o seguinte descritivo:
+
+	1 - consumer : consumidor
+	2 - pharmacie : farmacia
+	3 - suplier : fornecedor
+	4 - embassador : embaixador
+	5 - doctor : doutor
+	0 - Banned : false
+	
+### sessions - Sessões
+
+```
+{
+	"id":  "f539a03e-a021-4583-b8ef-ddf675053ea1" 
+	"created_at": r.now(),
+	"updated_at": r.now()
+	"token":  "hUjLkBCQOwKsj7tDT4dFlWyaEeO0XxCS" ,
+	"user":  "id_do_usuario_logado,
+}```
+
+O usuario acessa o sistema com suas credencias, se a checagem for ok, cria-se uma sessão para aquele usuario. Registrando o *id do objeto usuario* na sessão junto com o token.
+
+
+Preciso usar a validade do token para algumas ações.
+
+AUTENTICAÇÃO
+
+**http post {email, password}** 
+	Ao enviar corretamente os dados uma sessão é estabelecida e guardada na database.
+	Caso os dados nao sejam corretamente verificados a sessão local é destruída
+	
+### pharmacies - Farmácias
+### substances - Substâncias 
+### medicines - Formúlas
+### orders - Compras
+	integração com moip
+### address - Endereços
+### supliers - Fornecedores
+### products - Produtos
+
+
+
+## test
+Mocha co-mocha e supertest. 
+Cada compomente tem o seu proprio set de test que é desenvolvido junto com o component.
+
+Frontend usando karma?
+## utils
+Por enquanto apenas o rethink db, imagino que no futuro se precisar de task eu coloque a redis e kue-scheduler junto.
+## views
+* home
+* categoria
+* produto
+* pedido
+* comparação
+* perfil
+* pagamento
+

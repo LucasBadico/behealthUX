@@ -1,0 +1,99 @@
+class {
+	  constructor(input) {
+			console.log('create ? li-comp-profile',input);
+			this.state = input;
+			this.state.count = 0;
+			this.state.show = '';
+    }
+
+		onInput(input) {
+			console.log('input',input);
+				return {
+					user: input.user ||'none',
+					size: input.size || 'normal',
+					variant: input.variant || 'primary',
+					body: input.label || input.renderBody,
+					className: input['class']
+				};
+		}
+
+	  doLogin() {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+				console.log('login!', this.state);
+
+        // this.emit('click', {
+        //     event: event // Pass along the DOM event in case it is helpful to others
+        // });
+    }
+		openPanel() {
+			this.state.show = 'pop-show';
+			this.subscribeTo(window).on('bodyClick', () => {
+			    console.log('The user scrolled the window!');
+			});
+
+		}
+
+}
+
+style {
+    .pop-panel {
+			display: none;
+	    padding: 10px;
+	    background-color: white;
+	    border-top: 2px solid red;
+			position: fixed;
+			margin-top:10px;
+    }
+
+		.pop-show {
+			display: block;
+
+		}
+
+}
+
+<li>
+	<div class="dropdown">
+			 <a href="#" on-click('openPanel')>Login</a>
+ <!-- <if(state.dropdown)> -->
+			 <div class=['pop-panel',state.show]>
+
+					 <!-- <div class="row">
+
+							 <div class="col-md-6 col-sm-6 col-xs-6">
+									 <a href="#" class="bt_facebook">
+											 <i class="icon-facebook"></i>Facebook </a>
+							 </div>
+							 <div class="col-md-6 col-sm-6 col-xs-6">
+									 <a href="#" class="bt_paypal">
+											 <i class="icon-paypal"></i>Paypal </a>
+							 </div>
+					 </div>
+
+					 <div class="login-or">
+							 <hr class="hr-or">
+							 <span class="span-or">or  </span>
+					 </div> -->
+
+					 <div class="form-group">
+							 <input type="text" class="form-control" id="inputUsernameEmail" placeholder="Email">
+					 </div>
+
+					 <div class="form-group">
+							 <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+					 </div>
+
+					 <a id="forgot_pw" href="#">Esqueceu sua senha?</a>
+
+					 <button name="Sign in" value="Logar" id="Sign_in" class="button_drop" on-click('doLogin')> Logar1</button>
+
+
+			 </div>
+		 <!-- </if> -->
+			<!-- <div class="" style="display:block;">
+				 <button name="Sign in" value="Logar" id="Sign_in" class="button_drop" on-click('doLogin')> Logar 3</button>
+			</div> -->
+		</div>
+</li>

@@ -1,0 +1,856 @@
+/*********************************************/
+/* BEGIN "views/global-style/variables.less" */
+/* END   "views/global-style/variables.less" */
+/*********************************************/
+/********************************************/
+/* BEGIN "views/layouts/default/style.less" */
+.container {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* END   "views/layouts/default/style.less" */
+/********************************************/
+/*****************************************/
+/* BEGIN "views/global-style/style.less" */
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+form,
+img {
+  margin: 0;
+  padding: 0;
+}
+img {
+  border-width: 0;
+}
+textarea,
+input {
+  font-size: 14px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+select {
+  margin: 0;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+td {
+  padding: 0;
+  margin: 0;
+  border-width: 0;
+}
+pre {
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3 {
+  margin-top: 0;
+  padding-top: 0.5em;
+  margin-bottom: 0.2em;
+}
+h1 {
+  font-size: 1.5em;
+  color: #123851;
+}
+h1 a {
+  color: #123851;
+}
+h2 {
+  font-size: 1.25em;
+}
+h3 {
+  font-size: 1.0em;
+}
+label {
+  display: block;
+  font-size: 0.9em;
+}
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+}
+button {
+  padding: 0;
+  cursor: pointer;
+  line-height: normal;
+  border: 0;
+}
+a {
+  color: #2980b9;
+  text-decoration: none;
+}
+input[type=text] {
+  border: 1px solid #c0c0c0;
+}
+/* END   "views/global-style/style.less" */
+/*****************************************/
+/*****************************************************/
+/* BEGIN "views/components/div-col-login/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-col-login/style.less" */
+/*****************************************************/
+/********************************************************/
+/* BEGIN "views/components/div-col-preorder/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-col-preorder/style.less" */
+/********************************************************/
+/**********************************************************/
+/* BEGIN "views/components/div-backdrop-modal/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-backdrop-modal/style.less" */
+/**********************************************************/
+/************************************************/
+/* BEGIN "views/components/div-cart/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-cart/style.less" */
+/************************************************/
+/*************************************************/
+/* BEGIN "views/components/comp-menu/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/comp-menu/style.less" */
+/*************************************************/
+/*****************************************************/
+/* BEGIN "views/components/layout-header/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/layout-header/style.less" */
+/*****************************************************/
+/*****************************************************/
+/* BEGIN "views/components/layout-footer/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/layout-footer/style.less" */
+/*****************************************************/
+/*****************************************************/
+/* BEGIN "views/components/section-steps/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/section-steps/style.less" */
+/*****************************************************/
+/*******************************************************/
+/* BEGIN "views/components/div-input-frete/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-input-frete/style.less" */
+/*******************************************************/
+/**********************************************************/
+/* BEGIN "views/components/btn-paypal-express/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/btn-paypal-express/style.less" */
+/**********************************************************/
+/*********************************************************/
+/* BEGIN "views/components/btn-a-keep-buying/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/btn-a-keep-buying/style.less" */
+/*********************************************************/
+/*******************************************************/
+/* BEGIN "views/components/div-box-summary/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-box-summary/style.less" */
+/*******************************************************/
+/****************************************************/
+/* BEGIN "views/components/div-box-help/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/div-box-help/style.less" */
+/****************************************************/
+
+
+
+.message {
+    background-color: lightgoldenrodyellow;
+    font-weight: 600;
+    text-align: center;
+    padding: 3px 0;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+
+  .error {
+    color: white;
+    background-color: red;
+  }
+
+  .close-link{
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+
+.backdrop{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9000000;
+    background-color: rgba(0, 0, 0, 0.58);
+    display:none;
+  }
+
+  .show-modal{
+    display:block;
+  }
+
+  .close-modal{
+
+  }
+.number-spinner button {
+    background: #4285f4;
+    color: #ffffff;
+    border: 1px solid #1266f1;
+    display: inline-block;
+    padding: 12px 32px;
+    height: 26px;
+    line-height: 26px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    outline: 0;
+    transition: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    width: 40px;
+}
+
+.number-spinner input {
+    background: #fff;
+    border: 1px solid #1266f1;
+    display: inline-block;
+    height: 26px;
+    line-height: 26px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    outline: 0;
+    transition: none;
+    margin: 0;
+    padding: 0;
+    width: 40px;
+}
+
+.number-spinner.positive input {
+    background: rgb(86, 239, 165);
+}
+
+.number-spinner.negative input {
+    background: rgb(235, 182, 176);
+}
+
+
+.price-value {
+    font-size: 32px;
+    font-weight: 600;
+
+  }
+
+  .mo{
+    padding: 2px 4px;
+    border: 2px solid #82ca9c;
+    margin-left: 9px;
+    top: -6px;
+    position: relative;
+    color: white;
+    font-weight: 600;
+    background: #82ca9c;
+  }
+
+
+
+
+import pubsub from 'raptor-pubsub';
+
+class {
+    constructor(input){
+      this.state = {
+        cart:[],
+        total:0
+      }
+
+
+    }
+
+    onInput(input) {
+
+
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    onMount(){
+      var self = this;
+      var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", '/api/order/cart', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                  // console.log(this.readyState, this.status);
+                    if (this.readyState != 4) return false;
+
+                    if (this.status == 200) {
+                        console.log('return from GET MOUNT',this);
+                        if(this.responseText != 'OK'){
+                          self.state.cart = JSON.parse(this.responseText);
+                          var newTotal = 0;
+                          self.state.cart.forEach(function(item){
+                            newTotal += item.qtd*item.price;
+                          })
+
+                          self.state.total = newTotal;
+                          self.setStateDirty('total')
+
+                        }
+
+                    }
+                };
+
+      xhr.send();
+
+      pubsub.on('onAddCartItem',function(data) {
+
+        self.state.cart.push(data.item);
+        self.setStateDirty('cart');
+
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", '/api/order/cart', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+
+                  xhr.onreadystatechange = function () {
+                    // console.log(this.readyState, this.status);
+                      if (this.readyState != 4) return false;
+
+                      if (this.status == 200) {
+                        console.log('return from GET',this.responseText);
+                          self.state.cart = JSON.parse(this.responseText);
+                          var newTotal = 0;
+                          self.state.cart.forEach(function(item){
+                            newTotal += item.qtd*item.price;
+                          })
+
+                          self.state.total = newTotal;
+                          self.setStateDirty('total')
+                      }
+                  };
+
+
+               var data = {
+                             cart: self.state.cart
+                           }
+
+          xhr.send(JSON.stringify(data));
+      })
+
+      Number.prototype.formatMoney = function(c, d, t){
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+         };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+style {
+
+}
+
+<section id="hero_2">
+  <div class="intro_title animated fadeInDown">
+           <h1 style="margin-top: 8%;">Status do seu pedido</h1>
+            <div class="bs-wizard">
+
+                <div class="col-xs-2 bs-wizard-step active">
+                  <div class="text-center bs-wizard-stepnum">Seu carrinho</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="cart.html" class="bs-wizard-dot"></a>
+                </div>
+
+                <div class="col-xs-2 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum">Pagamento</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="/checkout" class="bs-wizard-dot"></a>
+                </div>
+
+                <div class="col-xs-2 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum">Receitas</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="/checkout" class="bs-wizard-dot"></a>
+                </div>
+
+                <div class="col-xs-2 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum">Produzido</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="/checkout" class="bs-wizard-dot"></a>
+                </div>
+
+              <div class="col-xs-2 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum">Transporte</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="confirmation.html" class="bs-wizard-dot"></a>
+                </div>
+
+              <div class="col-xs-2 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum">Recebido</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="confirmation.html" class="bs-wizard-dot"></a>
+                </div>
+
+    </div>  <!-- End bs-wizard -->
+    </div>   <!-- End intro-title -->
+</section><!-- End Section hero_2 -->
+
+
+.white-box {
+    padding: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 35px;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: white;
+  }
+
+
+  .cep-button {
+    bottom: 0;
+    margin-top: 25px;
+    height: 38px;
+  }
+
+
+
+

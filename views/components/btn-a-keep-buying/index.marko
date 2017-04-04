@@ -1,0 +1,23 @@
+class {
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+<a class="btn_full_outline" href="/home">
+   <i class="icon-right"></i> Continue comprando
+</a>

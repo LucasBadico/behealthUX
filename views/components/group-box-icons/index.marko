@@ -1,0 +1,46 @@
+class {
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+$ var variantClassName = (input.variant !== 'primary' && 'app-button-' + input.variant);
+$ var sizeClassName = (input.size !== 'normal' && 'app-button-' + input.size);
+
+<div class="row">
+		<div class="col-md-4 wow zoomIn" data-wow-delay="0.2s">
+			<div class="feature_home"> <i class="icon-truck-1"></i>
+				<h3>Frete <span>GRÁTIS</span></h3>
+				<p><a href="#">  para pedidos feitos nos estabelecimentos da sua região </a></p>
+        <!-- <a href="/faq?frete" class="btn_1 outline">Saiba mais</a>  -->
+      </div>
+		</div>
+		<div class="col-md-4 wow zoomIn" data-wow-delay="0.4s">
+			<div class="feature_home"> <i class=" icon-money-2"></i>
+				<h3><span>Compromisso</span> sempre</h3>
+				<p> <a href="#"> O menor preço garantido. Aqui a gente cobre qualquer oferta.</a> </p>
+         <!-- <a href="/faq?preco" class="btn_1 outline">Saiba mais</a> -->
+        </div>
+		</div>
+		<div class="col-md-4 wow zoomIn" data-wow-delay="0.6s">
+			<div class="feature_home"> <i class=" icon-newspaper-1"></i>
+				<h3>Venha ser <span>#BeHealth</span> </h3>
+				<p><a href="https://blog.behealthbrasil.com.br" target="_blank" > Acompanhe o blog da maior rede de saúde e bem estar</a> </p>
+        <!-- <a href="https://blog.behealthbrasil.com.br" target="_blank" class="btn_1 outline">Saiba mais</a>  -->
+      </div>
+		</div>
+</div>

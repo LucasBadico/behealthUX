@@ -1,0 +1,86 @@
+class {
+  constructor(input){
+    this.state = {
+      total:10.00
+    }
+  }
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+    onMount(){
+
+      var self = this;
+      paypal.Button.render({
+
+          env: 'sandbox', // Specify 'sandbox' for the test environment
+          locale: 'pt_BR',
+          style: {
+           size: 'medium',
+           color: 'gold',
+           shape: 'rect'
+         },
+         client: {
+             sandbox:    'AYJxKHVYEaAC7aQ4dpsCcPb0QvwqfXJoSkLc5k10OCKnuP0Dbdmbd8bHfVP09o-x8mM0FJGmduPzTHCt',
+             production: 'xxxxxxxxx'
+         },
+          payment: function() {
+              // Set up the payment here, when the buyer clicks on the button
+              var env    = this.props.env;
+              var client = this.props.client;
+
+              return paypal.rest.payment.create(env, client, {
+                  transactions: [
+                      {
+                          amount: { total: self.state.total, currency: 'USD' }
+                      }
+                  ]
+              });
+          },
+          commit: true, // Optional: show a 'Pay Now' button in the checkout flo
+
+          onAuthorize: function(data, actions) {
+              // Execute the payment here, when the buyer approves the transaction
+              // Optional: display a confirmation page here
+             return actions.payment.execute().then(function() {
+                 // Show a success page to the buyer
+                 window.location.assign('/confirmation');
+
+             });
+         }
+
+      }, '#paypal-button');
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+style {
+  .paypal-frame {
+    position: relative;
+    height: 62px;
+    width: 230px;
+    margin: auto 50%;
+    transform: translateX(-50%);
+  }
+}
+
+$ var variantClassName = (input.variant !== 'primary' && 'app-button-' + input.variant);
+$ var sizeClassName = (input.size !== 'normal' && 'app-button-' + input.size);
+
+<div class="paypal-frame">
+  <div class="btn_full_outline" href="#" id="paypal-button">
+  </div>
+
+</div>

@@ -1,0 +1,37 @@
+class {
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+<div class="row">
+		<div class="col-md-8 col-sm-6 hidden-xs"> <img src="img/laptop.png" alt="Laptop" class="img-responsive laptop"> </div>
+		<div class="col-md-4 col-sm-6">
+			<h3 style="font-size:16px;"><span>Experimente</span> comprar com a Behealth</h3>
+			<!-- <p tyle="font-size:15px;"> Alguma instrução de uso</p> -->
+			<ul class="list_order">
+				<li style="font-size: 20px;">
+          <span>1</span> Insira as substâncias do seu medicamento ou envie a sua receita
+        </li>
+        <li style="font-size: 20px;">
+          <span>2</span> Clique em “Buscar fórmula” e veja sua fórmula
+        </li>
+        <li style="font-size: 20px;">
+          <span>3</span> Agora, é só clicar em “Fazer orçamento” e descobrir o melhor negócio!
+        </li>
+			</ul> <a href="/home" class="btn_1">Experimente já</a> </div>
+</div>

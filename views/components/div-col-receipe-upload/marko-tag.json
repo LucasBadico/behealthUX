@@ -1,0 +1,30 @@
+{
+    "@buy-button": "string",
+    "@href": "string",
+    "@variant": {
+        "type": "string",
+        "enum": [
+            "primary",
+            "secondary"
+        ]
+    },
+    "@size": {
+        "type": "string",
+        "enum": [
+            "small",
+            "normal",
+            "large"
+        ]
+    },
+    "@receipe":"object",
+    "@number": "string",
+    "@type": "string",
+    "@search": "string",
+    "@unid": "string",
+    "@qtd": "string",
+    "@class": {
+        "type": "string",
+        "description": "Additional CSS class names"
+    },
+    "@*": "string"
+}

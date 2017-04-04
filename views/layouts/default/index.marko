@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>
+        <include(data.title)/>
+	</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="saúde, bem estar, qualidade de vida">
+	<meta name="description" content="Behealth - Compare e compre nas melhores farmácias de manipulação do Brasil.">
+	<meta name="author" content="Behealth">
+	<title>Behealth - Compare e compre nas melhores farmácias de manipulação do Brasil.</title>
+	<!-- Favicons-->
+	<link rel="shortcut icon" href="img/favicon.ico?v=5" type="image/x-icon">
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+	<!-- CSS -->
+	<link href="css/base.css" rel="stylesheet">
+	<!-- CSS -->
+	<link href="css/flickity.css" rel="stylesheet">
+	<!-- Google web fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+	<!--<link href="css/typing.css" rel="stylesheet">-->
+
+	  <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <!--
+    <link> tags to include optimized CSS URLs will be included below:
+    -->
+    <lasso-head/>
+</head>
+<body >
+<if(out.global.currentUser)>
+<div-backdrop-modal email=out.global.currentUser.email />
+</if>
+<else>
+	<div-backdrop-modal />
+</else>
+<!--[if lte IE 8]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+<![endif]-->
+
+    <!-- <layout-inside-body-preloader /> -->
+
+    <div class="layer"></div>
+    <!-- Mobile menu overlay mask -->
+	<include(data.url) />
+
+	<layout-header />
+  <include(data.body)/>
+
+	<layout-footer />
+
+
+<div id="toTop"></div><!-- Back to top button -->
+
+
+
+
+ <!-- Common scripts -->
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/common_scripts_min.js"></script>
+<script src="js/functions.js"></script>
+
+    <!--
+    <script> tags to include optimized JS URLs will be included below:
+    -->
+    <lasso-body/>
+
+    <!--
+    If the browser is started using the browser-refresh launcher
+    then a <script> tag will be injected below to open a WebSocket
+    connection to the server
+    -->
+    <browser-refresh enabled=true/>
+</body>
+</html>

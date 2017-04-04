@@ -1,0 +1,39 @@
+<lasso-page package-path="./browser.json" />
+
+<include("../../layouts/default") url=data.url >
+  	<@title>
+       Be Health - Compare e compre manipulados no único comparador de preços do Brasil. Seguro. Rápido. Prático e sempre pelo menor preço!
+    </@title>
+    <@body>
+    <!-- HEADER is common to all pages -->
+    <!-- End Header -->
+
+    <section-steps
+    text='Confira os itens do seu carrinho'
+    id='122313321'
+    step=1
+    type="waiting" />
+
+    <div class="container margin_60">
+    <div class="row">
+    <div class="col-md-8">
+      <div-cart mode="page" />
+
+
+    <!-- <div-input-frete /> -->
+    <!-- <div-input-cupon /> -->
+
+    </div><!-- End col-md-8 -->
+
+    <aside class="col-md-4">
+    <div-box-summary  buy-button="true" user=out.global.currentUser />
+    <div-box-help />
+    </aside><!-- End aside -->
+
+</div><!--End row -->
+</div><!--End container -->
+
+    </@body>
+
+
+</include>

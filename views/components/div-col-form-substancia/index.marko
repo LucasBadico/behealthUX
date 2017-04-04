@@ -1,0 +1,218 @@
+import pubsub from 'raptor-pubsub';
+
+class {
+    constructor(input){
+      this.state = {
+        listSubstance:[],
+        listMedicine:[],
+        search: input.search || '',
+        id:'',
+        qtd:input.qtd || '',
+        unid:input.unid || false
+      }
+    }
+
+    onInput(input) {
+        return {
+            className: input['class'],
+            number: input['number'],
+            buyButton: input['buy-button'] || false,
+            type:input['type'],
+            search:input['search'],
+            unid:input['unid'],
+            qtd:input['qtd'],
+        };
+    }
+
+    onUpdate(input){
+      // console.log('update',input, this.state);
+    }
+
+    instantSearch(event) {
+      console.log('change ',event.target.value);
+      var self = this;
+
+      self.state.search = event.target.value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", 'https://behealthbrasil.com.br/api/search/substance/'+event.target.value, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+              xhr.onreadystatechange = function () {
+                  if (this.readyState != 4) return;
+
+                  if (this.status == 200) {
+                      // we get the returned data
+                      var data =   JSON.parse(this.responseText);
+                      console.log(data,data.length);
+                      var substances = data['substances'];
+                      var medicines = data['medicines'];
+
+                        self.state.listSubstance = [];
+                        self.state.listMedicine = [];
+
+                        if(substances.length){
+                          console.log('add')
+                          for(let i = 0; i < substances.length; i++ ){
+
+                            self.state.listSubstance.push(substances[i])
+
+                            if(i > 5){
+                              self.setStateDirty('listSubstance');
+                              break;
+
+                            }
+
+                          }
+
+                          self.setStateDirty('listSubstance');
+
+                      }else{
+                        console.log('clear')
+
+                        self.state.listSubstance = [];
+                      }
+
+                      if(medicines.length){
+                        console.log('add')
+                        for(let i = 0; i < medicines.length; i++ ){
+
+                          self.state.listMedicine.push(medicines[i])
+
+                          if(i > 5){
+                            self.setStateDirty('listMedicine');
+                            break;
+
+                          }
+
+                        }
+
+                        self.setStateDirty('listMedicine');
+
+                      }else{
+                        console.log('clear medicine')
+                        self.state.listMedicine = [];
+                      }
+
+                  }
+                  // end of state change: it can be after some time (async)
+              };
+      if(self.state.search == ''){
+        this.clearSearch()
+      }else{
+        xhr.send();
+
+      }
+    }
+
+    chooseSubstance(substance){
+      console.log(substance);
+      this.state.search = substance.keys[0];
+      this.state.id = substance.id;
+      this.state.listSubstance = [];
+      this.state.unid = substance.unid;
+    }
+
+    chooseMedicine(medicine){
+      console.log('chooseMedicine',medicine);
+      pubsub.emit('chooseMedicine', medicine);
+      this.state.listMedicine = [];
+      this.setStateDirty('listMedicine');
+    }
+
+    saveToMedicine(event){
+      this.state.qtd = event.target.value;
+      pubsub.emit('chooseSubstance', this.state.id, this.state.qtd,this.state.search,this.state.unid)
+      //emitir the state of component to the search medicine one.
+    }
+
+    clearSearch(){
+      this.state.listSubstance = [];
+      this.state.listMedicine = [];
+      this.setStateDirty('listSubstance');
+      this.setStateDirty('listMedicine');
+      this.state.search = '';
+
+    }
+}
+
+style {
+  .instant-result {
+    position: absolute;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.2);
+    top: 67px;
+    left: 29px;
+    z-index:10;
+  }
+  .ontop{
+  }
+  .instant-result-item{
+    padding: 10px 20px;
+    margin-left:-15px;
+    margin-right:-15px;
+
+  }
+  .instant-result-item a{
+    text-align: right;
+    width: 100%;
+    display: block;
+    margin-bottom: 7px;
+  }
+  .instant-result-item:hover{
+    background-color:rgba(0,0,0,0.2);
+  }
+}
+
+<div class="col-xs-12 ontop">
+  <div class="form-group col-xs-12 col-sm-8">
+      <label>Substância ${input.number}</label>
+      <input type="text" class="form-control"  name="substancia" placeholder="" on-input('instantSearch') value=state.search >
+      <if(state.listSubstance.length > 0)>
+        <div class="instant-result col-xs-6 col-md-8">
+          <p>Substâncias</p>
+
+          <for(item in state.listSubstance)>
+            <if(item.keys.length > 0)>
+              <div class="instant-result-item"
+                   on-click('chooseSubstance',item)>
+
+                ${item.keys[0]}
+                <!-- ${state.listSubstance.keys[0]} -->
+              </div>
+            </if>
+          </for>
+          <a href="#" on-click('clearSearch')>limpar busca</a>
+
+        </div>
+      </if>
+      <if(state.listMedicine.length > 0)>
+        <div class="instant-result col-xs-6 col-md-8" style="left:55%;">
+          <p>Formúlas</p>
+          <for(item in state.listMedicine)>
+            <!-- <if(item.keys.length > 0)> -->
+              <div class="instant-result-item"
+                   on-click('chooseMedicine',item)>
+
+                ${item.label}
+                <!-- ${state.listSubstance.keys[0]} -->
+              </div>
+            <!-- </if> -->
+          </for>
+          <a href="#" on-click('clearSearch')>limpar busca</a>
+
+        </div>
+      </if>
+  </div>
+  <div class="form-group col-xs-12 col-sm-4">
+      <label>
+        Quantidade
+        <if(state.unid)>
+          (${state.unid})
+        </if>
+      </label>
+      <input type="text" class="form-control"  name="substancia" placeholder="" value=state.qtd on-input('saveToMedicine')>
+  </div>
+  <!-- $ console.log(this.state.listSubstance) -->
+
+</div>

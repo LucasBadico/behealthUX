@@ -1,0 +1,50 @@
+class {
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+style {
+  .white-box {
+    padding: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 35px;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: white;
+  }
+
+
+  .cep-button {
+    bottom: 0;
+    margin-top: 25px;
+    height: 38px;
+  }
+}
+
+$ var variantClassName = (input.variant !== 'primary' && 'app-button-' + input.variant);
+$ var sizeClassName = (input.size !== 'normal' && 'app-button-' + input.size);
+
+<div class=[input.className,'white-box']>
+        <h4>Calcular Frete</h4>
+        <div class="form-group col-xs-8">
+          <label>CEP</label>
+          <input class="form-control" name="cep" id="old_password" type="text">
+        </div>
+
+        <button type="submit" class="btn_1 green cep-button">Calcular Frete</button>
+</div>

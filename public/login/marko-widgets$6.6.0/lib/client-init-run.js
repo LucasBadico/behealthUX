@@ -1,0 +1,1 @@
+$_mod.run("/marko-widgets$6.6.0/lib/client-init");

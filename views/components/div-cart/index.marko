@@ -1,0 +1,338 @@
+import pubsub from 'raptor-pubsub';
+
+class {
+    onCreate(input){
+      this.state = {
+        cart:[],
+        frete:0,
+        total:0,
+        id:''
+      }
+    }
+
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class'],
+            mode: input.mode || '',
+            frete: input.frete || 0,
+            total: input.total || 0,
+            cart: input.cart || []
+        };
+    }
+
+    onMount(){
+      var self = this;
+      var xhr = new XMLHttpRequest();
+
+              xhr.open("GET", 'https://behealthbrasil.com.br/api/order/cart', true);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+
+                      xhr.onreadystatechange = function () {
+                        // console.log(this.readyState, this.status);
+                          if (this.readyState != 4) return false;
+
+                          if (this.status == 200) {
+                              console.log('return from GET MOUNT',this);
+                              if(this.responseText != 'OK' && this.responseText != "{}" ){
+                                  var order = JSON.parse(this.responseText);
+                                if(!Array.isArray(order)){
+                                  self.state.cart = order.cart;
+                                  self.state.id = order.id;
+                                  var newTotal = 0;
+                                  self.state.cart.forEach(function(item){
+                                    newTotal += item.qtd*item.price;
+                                  })
+
+                                  self.state.total = newTotal;
+                                  self.setStateDirty('total')
+                                }
+
+
+                              }
+
+                          }
+                      };
+
+              xhr.send();
+
+      pubsub.on('setQtd',function(data) {
+        if(self.input.mode == 'page'){
+        // console.log('chooseSubstance',key, value);
+        // console.log(data);
+        self.state.cart[data.target].qtd = data.value;
+        var total = 0;
+
+        console.log(self.state.cart);
+
+        for(var i = 0; i < self.state.cart.length; i++){
+            console.log('item',self.state.cart[i]);
+            if(self.state.cart[i].label != 'Formula não Listada'){
+              total += self.state.cart[i].qtd *  self.state.cart[i].price;
+              console.log('total',total);
+            }
+        }
+        self.state.total  = total;
+        self.setStateDirty('total');
+        }
+      });
+
+        if(this.input.mode == 'summary'){
+
+          pubsub.on('onSendPayment',function(){
+            // if() {
+            //
+            // }
+            // else {
+              var data = {
+                amount:self.state.total,
+                id:self.state.id
+              }
+              console.log('sending payment',data);
+
+              $.ajax({
+                     url : 'https://behealthbrasil.com.br/api/pay2',
+                     type : 'POST',
+                     data : JSON.stringify(data),
+                     processData: false,  // tell jQuery not to process the data
+                     contentType: 'application/json',  // tell jQuery not to set contentType
+                     success : function(data) {
+                        console.info('files',data);
+
+                        window.location.assign(data);
+                     }
+              });
+            // }
+
+          })
+      }
+
+      pubsub.on('onAddCartItem',function(data) {
+
+        self.state.cart.push(data.item);
+        self.setStateDirty('cart');
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", 'https://behealthbrasil.com.br/api/order/cart', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+
+                  xhr.onreadystatechange = function () {
+                    // console.log(this.readyState, this.status);
+                      if (this.readyState != 4) return false;
+
+                      if (this.status == 200) {
+                        console.log('return from GET',this.responseText);
+
+                          self.state.cart = JSON.parse(this.responseText).cart;
+                          self.state.id = JSON.parse(this.responseText).id;
+                          var newTotal = 0;
+                          if(self.state.cart && self.state.cart.length > 0){
+                            self.state.cart.forEach(function(item){
+                              newTotal += item.qtd*item.price;
+                            })
+                          }
+
+
+                          self.state.total = newTotal;
+                          self.setStateDirty('total')
+                      }
+                  };
+
+
+               var data = {
+                             cart: self.state.cart
+                           }
+
+          xhr.send(JSON.stringify(data));
+      })
+
+      pubsub.on('onRemoveCartItem',function(index) {
+        self.state.cart.splice(index,1)
+        self.setStateDirty('cart')
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'https://behealthbrasil.com.br/api/order/cart', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                  // console.log(this.readyState, this.status);
+                    if (this.readyState != 4) return false;
+
+                    if (this.status == 200) {
+                      console.log('return from GET',this.responseText);
+
+                        self.state.cart = JSON.parse(this.responseText).cart;
+                        self.state.id = JSON.parse(this.responseText).id;
+                        var newTotal = 0;
+                        if(self.state.cart && self.state.cart.length > 0){
+                          self.state.cart.forEach(function(item){
+                            newTotal += item.qtd*item.price;
+                          })
+                        }
+
+
+                        self.state.total = newTotal;
+                        self.setStateDirty('total')
+                    }
+                };
+
+
+             var data = {
+                           cart: self.state.cart
+                         }
+
+        xhr.send(JSON.stringify(data));
+
+      })
+
+      Number.prototype.formatMoney = function(c, d, t){
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+         };
+    }
+
+    remove(index){
+      pubsub.emit('onRemoveCartItem',index)
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+style {
+  .price-value {
+    font-size: 32px;
+    font-weight: 600;
+
+  }
+
+  .mo{
+    padding: 2px 4px;
+    border: 2px solid #82ca9c;
+    margin-left: 9px;
+    top: -6px;
+    position: relative;
+    color: white;
+    font-weight: 600;
+    background: #82ca9c;
+  }
+}
+
+<div>
+<if(input.mode == "dropdown")>
+<div class="dropdown dropdown-cart">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <i class=" icon-basket-1"></i>
+      Cart
+      <if(state.cart != 'undefined' && state.cart != null)>
+       (${state.cart.length})
+     </if>
+     </a>
+    <ul class="dropdown-menu" id="cart_items" if(state.cart != 'undefined' && state.cart != null && state.cart.length > 0)>
+        <li for(i,item in state.cart)>
+            <div class="image" style="width:90px;">${item.label}</div>
+            <strong style="width:110px;">
+<a href="#">R$ ${(item.qtd*item.price).formatMoney(2,',','.')} </a> por  ${item.qtd} ${item.unid} x R$ ${(item.price).formatMoney(2,',','.')} </strong>
+            <a href="#" class="action"><i class="icon-trash" on-click('remove',i)></i></a>
+        </li>
+
+        <li>
+            <div>Total: <span>R$ ${(state.total).formatMoney(2,',','.')}</span></div>
+            <a href="/cart" class="button_drop">Ver carrinho</a>
+        </li>
+    </ul>
+</div>
+</if>
+<if(input.mode == "page")>
+<table class="table table-striped cart-list add_bottom_30">
+      <thead>
+      <tr>
+          <th>
+              Item
+          </th>
+          <th>
+              Quantidde
+          </th>
+          <th>
+              Preço unitário
+          </th>
+          <th>
+              Total
+          </th>
+          <th>
+
+          </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr for(i,item in state.cart)>
+          <td>
+            ${item.label}
+
+          </td>
+          <td>
+            <app-number-spinner value=item.qtd  index=i /> x ${item.unidade}
+          </td>
+          <td>
+            ${(item.price).formatMoney(2,',','.')}
+          </td>
+          <td>
+              <strong>R$ ${(item.price*item.qtd).formatMoney(2,',','.')}</strong>
+          </td>
+          <td class="options">
+              <a href="#"><i class=" icon-trash"></i></a><a href="#"><i class="icon-ccw-2"></i></a>
+          </td>
+      </tr>
+      </tbody>
+      </table>
+    <div>
+      <span class="price-value">R$ ${(state.total).formatMoney(2,',','.')}</span>
+      <span class="mo"> o melhor preço </span>
+    </div>
+</if>
+
+<if(input.mode == "summary")>
+  <table class="table table_summary">
+  <tbody>
+  <tr>
+      <td>
+          Pedido
+      </td>
+      <td class="text-right">
+          R$  ${(state.total).formatMoney(2,',','.')}
+      </td>
+  </tr>
+  <tr>
+      <td>
+          Frete
+      </td>
+      <td class="text-right">
+          R$ ${(state.frete).formatMoney(2,',','.')}
+      </td>
+  </tr>
+  <tr class="total">
+      <td>
+          Total
+      </td>
+      <td class="text-right">
+          R$ ${(state.total  + state.frete).formatMoney(2,',','.')}
+      </td>
+  </tr>
+  </tbody>
+  </table>
+</if>
+</div>

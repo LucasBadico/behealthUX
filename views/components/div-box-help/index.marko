@@ -1,0 +1,27 @@
+class {
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+<div class="box_style_4">
+    <i class="icon_set_1_icon-57"></i>
+    <h4>Precisa de uma <span>ajudinha?</span></h4>
+    <a href="mailto:suporte@behealthbrasil.com.br"> suporte@behealthbrasil.com.br</a>
+    <!-- <a href="tel://004542344599" class="phone">+45 423 445 99</a>
+    <p>Segunda à sexta 9:00 - 18:00</p> -->
+</div>

@@ -1,0 +1,87 @@
+import pubsub from 'raptor-pubsub';
+
+class {
+
+		onCreate(input) {
+		//console.log('URL#',input.url)
+	}
+
+    onInput(input) {
+		//console.log('URL#2',input.url)
+    }
+
+		callModalLogin(event){
+			 pubsub.emit('showModal', {})
+		}
+
+		doLogout(event) {
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", 'https://behealthbrasil.com.br/api/signin', true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+
+							xhr.onreadystatechange = function () {
+									if (this.readyState != 4) return;
+
+									if (this.status == 205) {
+											// var data = JSON.parse(this.responseText);
+											console.log('response',this.responseText);
+											window.location.assign('/home');
+											// we get the returned data
+									}
+
+									// end of state change: it can be after some time (async)
+							};
+			var sendData = JSON.stringify({logout:true});
+			console.log(sendData);
+			xhr.send(sendData);
+		}
+
+}
+
+<header>
+	<div id="top_line">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<!-- <i class="icon-phone"></i><strong>0045 043204434</strong> -->
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<ul id="top_links">
+						<if(!out.global.currentUser)>
+							<!-- <login-pop-up user=out.global.currentUser ></login-pop-up> -->
+							<li>
+									<a href="#" on-click('callModalLogin',{data:'valor'})>Olá, <strong>faça seu login!</strong></a>
+							</li>
+						</if>
+						<else>
+							<li>
+							Olá <strong><a href="/profile">${out.global.currentUser.firstName}</a></strong>, parabéns por ser #health
+							</li>
+						</else>
+
+						<!-- <li><a href="/favoritos" id="wishlist_link">Favoritos</a></li> -->
+						<if(out.global.currentUser)>
+						<li><a href="#"  on-click('doLogout')>Logout</a></li>
+					</if>
+
+					</ul>
+				</div>
+			</div>
+			<!-- End row -->
+		</div>
+		<!-- End container-->
+	</div>
+	<!-- End top line-->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 col-sm-3 col-xs-3">
+				<div id="logo">
+					<a href="/home"><img src="img/logo_white.png" width="160" height="34" alt="City tours" data-retina="true" class="logo_normal"></a>
+					<a href="/home"><img src="img/logo_sticky.png" width="160" height="34" alt="City tours" data-retina="true" class="logo_sticky"></a>
+				</div>
+			</div>
+			<comp-menu />
+		</div>
+	</div>
+	<!-- container -->
+</header>

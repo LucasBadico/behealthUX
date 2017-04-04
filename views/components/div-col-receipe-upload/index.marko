@@ -1,0 +1,94 @@
+import pubsub from 'raptor-pubsub';
+
+class {
+    constructor(input){
+      this.state = {
+        image:'',
+        show: false
+      }
+    }
+    //
+    // onInput(input) {
+    //     return {
+    //         className: input['class'],
+    //         number: input['number'],
+    //         buyButton: input['buy-button'] || false,
+    //         type:input['type'],
+    //         search:input['search'],
+    //         unid:input['unid'],
+    //         receipe:input['receipe'],
+    //     };
+    // }
+
+    onUpdate(input){
+      // console.log('update',input, this.state);
+    }
+
+    sendPhoto(evt){
+      var self = this;
+      var files = evt.target.files;
+      var formData = new FormData();
+          formData.append('file', files[0]);
+
+          console.log(formData);
+          $.ajax({
+                 url : 'https://behealthbrasil.com.br/api/receipe',
+                 type : 'POST',
+                 data : formData,
+                 processData: false,  // tell jQuery not to process the data
+                 contentType: false,  // tell jQuery not to set contentType
+                 success : function(data) {
+                    console.info('files',data);
+                    self.state.image = true;
+
+                     var imageUrl = 'data:' + data.type + ';base64,' + Buffer.from(data.file).toString('base64');
+                    // console.log('blob',blob)
+                    self.state.image  = imageUrl;
+                    self.state.show = true;
+
+                    pubsub.emit('uploadReceipe', data.id);
+                    // pubsub.emit('showModal', {type:'preorder', thisid:this.responseText});
+                    //  alert(data);
+                 }
+          });
+    }
+
+}
+
+style {
+  .image-false{
+    display:none;
+  }
+  .input{
+    display:none;
+  }
+  .input-false{
+    display:block;
+  }
+
+}
+  <div class="col-xs-12">
+    <div class="form-group">
+      <label>Tire uma foto</label>
+      <input  type="file" name="file-6"   class="form-control" style="padding-left: 17px; padding-top: 10px; position: relative; z-index:100;background-color: transparent;" on-change('sendPhoto')>
+      <label for="file-6" style="position: absolute; top: 36px;">
+      <span style="width:165px"></span>
+      <strong style="    background-color: #15aa7b; width: 170px; text-align: center; padding: 10px; color: white; border-radius: 3px; margin-left: 3px;">
+      <i class="icon-camera-7"></i> Tire uma foto&hellip;</strong></label>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+
+      <label>Faça upload</label>
+      <input class="form-control" id="receipeUp" name="file-7" type="file" style=" padding-left: 60px; padding-top: 11px; position: relative; z-index:100;background-color: transparent;" on-change('sendPhoto')>
+      <label for="file-7" style=" padding: 0px; line-height: 35px; margin-top: 2px; position: absolute; top: 26px;">
+        <span style="width:165px"></span>
+        <strong style="fill:white;background-color: #15aa7b; padding: 10px; padding-right: 15px; margin-left: 3px; border-radius: 2px;color: white;">
+
+          Escolha um arquivo&hellip;
+        </strong>
+      </label>
+    </div>
+  </div>
+<!-- End row -->

@@ -1,0 +1,26 @@
+<lasso-page package-path="./browser.json" />
+
+<include("../../layouts/default") url=data.url >
+  	<@title>
+       Be Health - Compare e compre manipulados no único comparador de preços do Brasil. Seguro. Rápido. Prático e sempre pelo menor preço!
+    </@title>
+    <@body>
+    <!-- HEADER is common to all pages -->
+    <!-- End Header -->
+
+      $ console.log('user in page -> ', out.global.currentUser)
+    <section-hero-search user=out.global.currentUser />
+    <!-- End hero -->
+
+	  <!--<group-section-solo-banner /> -->
+	  <comp-banner-full-line />
+
+	  <!-- <app-products-lines /> -->
+	  <app-white-popular />
+	  <!-- <comp-video-fullwidth /> -->
+
+
+    </@body>
+
+
+</include>

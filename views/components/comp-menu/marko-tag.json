@@ -1,0 +1,27 @@
+{
+    "@url": "string",
+    "@href": "string",
+    "@variant": {
+        "type": "string",
+        "enum": [
+            "primary",
+            "secondary"
+        ]
+    },
+	"@active":{
+		"type":"string"
+	},
+    "@size": {
+        "type": "string",
+        "enum": [
+            "small",
+            "normal",
+            "large"
+        ]
+    },
+    "@class": {
+        "type": "string",
+        "description": "Additional CSS class names"
+    },
+    "@*": "string"
+}

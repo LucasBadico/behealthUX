@@ -1,0 +1,84 @@
+import pubsub from 'raptor-pubsub';
+
+class {
+  constructor(input) {
+    this.state = {
+      visible: false,
+      classe: 'placeholder',
+      type: '',
+      thisid:''
+    }
+  }
+
+  onInput(input) {
+      return {
+          size: input.size || 'normal',
+          variant: input.variant || 'primary',
+          body: input.label || input.renderBody,
+          className: input['class'],
+          email: input.email || ''
+      };
+  }
+
+  onMount(){
+    var self = this;
+    pubsub.on('showModal',function(data) {
+      console.log('show modal',data);
+      self.state.classe = 'show-modal';
+      self.state.type = data.type;
+      self.state.thisid = data.thisid;
+    })
+
+    pubsub.on('hideModal',function() {
+      console.log('hide modal',self);
+      self.state.classe = 'hide-modal';
+    })
+  }
+
+  close(){
+     pubsub.emit('hideModal', {})
+  }
+
+  show(boo){
+    if(boo){
+      return 'show-modal'
+    }
+
+    return 'hide-modal'
+  }
+
+}
+
+style {
+  .backdrop{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9000000;
+    background-color: rgba(0, 0, 0, 0.58);
+    display:none;
+  }
+
+  .show-modal{
+    display:block;
+  }
+
+  .close-modal{
+
+  }
+
+}
+
+<div class=["backdrop",state.classe] >
+
+ $ console.log('user in modal -> ',out.global.currentUser)
+  <!-- <div class="close-modal" on-click('close')> fechar </div> -->
+<if(!state.type)>
+  <div-col-login class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" mode="modal"/>
+</if>
+
+<if(state.type == 'preorder')>
+<div-col-preorder class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" mode="modal" thisid=state.thisid email=input.email />
+</if>
+
+</div>

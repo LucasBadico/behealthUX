@@ -1,0 +1,97 @@
+class {
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+<footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-sm-4">
+                    <h3>Precisa de ajuda?</h3>
+                    <!-- <a href="tel://004542344599" id="phone">+45 423 445 99</a> -->
+                    <a href="mailto:ajuda@behealthbrasil.com.br" id="email_footer">ajuda@behealthbrasil.com.br</a>
+
+					<strong>Pague com</strong>
+                    <p><img src="img/payments.png" width="231" height="30" alt="Image" data-retina="true" class="img-responsive"></p>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <h3>Sobre</h3>
+                    <ul>
+                        <li><a href="/quemsomos">Quem somos</a></li>
+                        <li><a href="https://blog.behealthbrasil.com.br">BLOG</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <if(!out.global.currentUser)>
+                          <li><a href="/login">Login</a></li>
+                          <li><a href="/register">Cadastro</a></li>
+                        </if>
+                         <li><a href="/termos">Termos e condições</a></li>
+                    </ul>
+                </div>
+               <div class="col-md-3 col-sm-4" id="newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Fique por dentro das nossas novidades.</p>
+					<div id="message-newsletter_2"></div>
+						<form method="post" action="assets/newsletter.php" name="newsletter_2" id="newsletter_2">
+                        <div class="form-group">
+                            <input name="email_newsletter_2" id="email_newsletter_2" type="email" value="" placeholder="Seu email" class="form-control">
+                          </div>
+                            <input type="submit" value="Assinar" class="btn_1" id="submit-newsletter_2">
+                    	</form>
+                </div>
+
+               <!-- <div class="col-md-2 col-sm-3">
+                    <h3>Settings</h3>
+                    <div class="styled-select">
+                        <select class="form-control" name="lang" id="lang">
+                            <option value="English" selected>English</option>
+                            <option value="French">French</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Russian">Russian</option>
+                        </select>
+                    </div>
+                    <div class="styled-select">
+                        <select class="form-control" name="currency" id="currency">
+                            <option value="USD" selected>USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="RUB">RUB</option>
+                        </select>
+                    </div>
+                </div> -->
+
+
+            </div><!-- End row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="social_footer">
+                        <ul>
+                            <li><a href="https://www.facebook.com/behealthbrasil/" target="_blank"><i class="icon-facebook"></i></a></li>
+                            <li><a href="https://www.instagram.com/behealthbr/" target="_blank"><i class="icon-instagram"></i></a></li>
+                           <!-- <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-google"></i></a></li>
+                            <li><a href="#"><i class="icon-pinterest"></i></a></li>
+                            <li><a href="#"><i class="icon-vimeo"></i></a></li>
+                            <li><a href="#"><i class="icon-youtube-play"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li> -->
+                        </ul>
+                        <p>© Behealth 2017</p>
+                    </div>
+                </div>
+            </div><!-- End row -->
+        </div><!-- End container -->
+    </footer><!-- End footer -->

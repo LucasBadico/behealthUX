@@ -1,0 +1,42 @@
+class {
+    constructor(input){
+
+    }
+
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class'],
+            buyButton: input.buyButton || 0
+        };
+    }
+
+    handleClick(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+<div class="box_style_1">
+  <!-- <script src="https://www.paypalobjects.comhttps://behealthbrasil.com.br/api/checkout.js"></script> -->
+
+    <h3 class="inner">- Resumo -</h3>
+    <div-cart mode="summary" />
+    <if(input.buyButton)>
+    <!-- <iframe-paypal-button /> -->
+    <btn-paypal-express order=input.order total=input.total/>
+      <!-- <div id="paypal-button"></div> -->
+    </if>
+    <btn-a-keep-buying />
+
+    <script>
+
+
+</script>
+</div>

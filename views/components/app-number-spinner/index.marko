@@ -1,0 +1,76 @@
+import './style.css';
+import pubsub from 'raptor-pubsub';
+
+static function getClassNameForValue(value) {
+    if (value < 0) {
+        return 'negative'
+    } else if (value > 0) {
+        return 'positive'
+    }
+}
+
+class {
+
+	getInitialState(input) {
+		console.log('initialstate')
+        return {
+            name: input.name,
+            selected: input.selected || false
+        }
+    }
+    onInput(input) {
+        var value = input.value || 0;
+        var index = input.index || 0;
+
+        this.state = {
+            value: value,
+            index: index
+        };
+        console.log(input.index)
+        // return {
+        //     size: input.size || 'normal',
+        //     index: input.index
+        // };
+    }
+
+    handleIncrementClick(delta) {
+        if(this.state.value + delta >= 0){
+            this.state.value += delta;
+            var value = this.state.value;
+            var data = {target:this.state.index,value:value};
+            pubsub.emit('setQtd',data);
+        }
+  		// $.post( "/tryPost", send,function( data ) {
+  		// 	console.log(data);
+  		// });
+
+
+    }
+
+    handleInputKeyUp(event, el) {
+        var newValue = el.value;
+        if (/^-?[0-9]+$/.test(newValue)) {
+            this.state.value = parseInt(newValue, 10);
+            var value = this.state.value;
+            var data = {target:this.state.index,value:value};
+            pubsub.emit('setQtd',data);
+        }
+    }
+}
+
+$ var value=state.value;
+
+<div class=['number-spinner', getClassNameForValue(value)]>
+
+    <!-- <button type="button" onClick("handleIncrementClick", -1)>
+        -
+    </button> -->
+
+    <input type="text" value=state.value size="4"
+        onKeyUp("handleInputKeyUp")>
+
+    <!-- <button type="button" onClick("handleIncrementClick", 1)>
+        +
+    </button> -->
+
+</div>

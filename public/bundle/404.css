@@ -1,0 +1,329 @@
+/*********************************************/
+/* BEGIN "views/global-style/variables.less" */
+/* END   "views/global-style/variables.less" */
+/*********************************************/
+/********************************************/
+/* BEGIN "views/layouts/default/style.less" */
+.container {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* END   "views/layouts/default/style.less" */
+/********************************************/
+/*****************************************/
+/* BEGIN "views/global-style/style.less" */
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+form,
+img {
+  margin: 0;
+  padding: 0;
+}
+img {
+  border-width: 0;
+}
+textarea,
+input {
+  font-size: 14px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+select {
+  margin: 0;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+td {
+  padding: 0;
+  margin: 0;
+  border-width: 0;
+}
+pre {
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3 {
+  margin-top: 0;
+  padding-top: 0.5em;
+  margin-bottom: 0.2em;
+}
+h1 {
+  font-size: 1.5em;
+  color: #123851;
+}
+h1 a {
+  color: #123851;
+}
+h2 {
+  font-size: 1.25em;
+}
+h3 {
+  font-size: 1.0em;
+}
+label {
+  display: block;
+  font-size: 0.9em;
+}
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+}
+button {
+  padding: 0;
+  cursor: pointer;
+  line-height: normal;
+  border: 0;
+}
+a {
+  color: #2980b9;
+  text-decoration: none;
+}
+input[type=text] {
+  border: 1px solid #c0c0c0;
+}
+/* END   "views/global-style/style.less" */
+/*****************************************/
+/********************************************************************/
+/* BEGIN "views/components/layout-inside-body-preloader/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/layout-inside-body-preloader/style.less" */
+/********************************************************************/
+/*****************************************************/
+/* BEGIN "views/components/layout-header/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/layout-header/style.less" */
+/*****************************************************/
+/*****************************************************/
+/* BEGIN "views/components/layout-footer/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/layout-footer/style.less" */
+/*****************************************************/
+/*******************************************************/
+/* BEGIN "views/components/group-box-icons/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/group-box-icons/style.less" */
+/*******************************************************/
+/***********************************************************/
+/* BEGIN "views/components/group-notebook-list/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/group-notebook-list/style.less" */
+/***********************************************************/
+/*********************************************************/
+/* BEGIN "views/components/app-white-popular/style.less" */
+.app-button {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: #fff;
+  transition-property: background-color;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+}
+.app-button:hover {
+  background-color: #409ad5;
+}
+/* Variants */
+.app-button-secondary {
+  background-color: #999999;
+  color: #fff;
+}
+.app-button-secondary:hover {
+  background-color: #b3b3b3;
+}
+/* Sizes */
+.app-button-small {
+  font-size: 0.9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.app-button-large {
+  font-size: 1.2em;
+  font-weight: 100;
+}
+/* END   "views/components/app-white-popular/style.less" */
+/*********************************************************/
+
+
+
+
+
+
+

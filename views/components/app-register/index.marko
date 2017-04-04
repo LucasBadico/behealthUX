@@ -1,0 +1,124 @@
+class {
+    constructor(input){
+      this.state = {
+                    messageType:'',
+                    messageBody:'',
+                    message:false
+                  };
+    }
+
+    onInput(input) {
+        return {
+            size: input.size || 'normal',
+            variant: input.variant || 'primary',
+            body: input.label || input.renderBody,
+            className: input['class']
+        };
+    }
+
+    doRegister(event) {
+        // Every Widget instance is also an EventEmitter instance.
+        // We will emit a custom "click" event when a DOM click event
+        // is triggered
+        event.preventDefault();
+        var user = {
+          fullName: document.getElementById("fullname_R").value,
+          email: document.getElementById("email_R").value,
+          password: document.getElementById("password_R").value,
+          firstName: document.getElementById("fullname_R").value.split(' ')[0]
+        };
+
+        var state = this.state;
+        console.log(user)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'https://behealthbrasil.com.br/api/signup', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                  console.log(this.readyState, this.status);
+                    if (this.readyState != 4) return false;
+
+                    if (this.status == 201) {
+                      state.message = true;
+                      state.messageType = 'success';
+                      state.messageBody = 'Cadastro efetuado com sucesso, Parabéns por ser #HEALTH';
+
+                      setTimeout(function(){
+                         window.location.assign('/home');
+                      },2000)
+
+                    }
+
+                    if (this.status == 401) {
+                      state.message = true;
+                      state.messageType = 'error';
+                      state.messageBody = this.status + ' - ' + this.responseText;
+
+                    }
+                    // end of state change: it can be after some time (async)
+                };
+
+        xhr.send(JSON.stringify(user));
+        this.emit('click', {
+            event: event // Pass along the DOM event in case it is helpful to others
+        });
+    }
+}
+
+style {
+  .message {
+    background-color: lightgoldenrodyellow;
+    font-weight: 600;
+    text-align: center;
+    padding: 3px 0;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+
+  .error {
+    color: white;
+    background-color: red;
+  }
+}
+
+$ var variantClassName = (input.variant !== 'primary' && 'app-button-' + input.variant);
+$ var sizeClassName = (input.size !== 'normal' && 'app-button-' + input.size);
+
+<section id="hero" class="login">
+    	<div class="container">
+        	<div class="row">
+            	<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+                	<div id="login">
+                    		<div class="text-center"><img src="img/logo_sticky.png" alt="" data-retina="true" ></div>
+                            <hr>
+                            <if(state.message)>
+                              <div class=["message",state.messageType] >
+                                ${state.messageBody}
+                              </div>
+                            </if>
+
+                           <form>
+                                <div class="form-group">
+                                	<label>Nome completo</label>
+                                    <input type="text" class=" form-control"  placeholder="Nome completo" id="fullname_R">
+                                </div>
+                                <div class="form-group">
+                                	<label>Email</label>
+                                    <input type="email" class=" form-control" placeholder="Email" id="email_R">
+                                </div>
+                                <div class="form-group">
+                                	<label>Senha</label>
+                                    <input type="password" class=" form-control" id="password_R" placeholder="Senha">
+                                </div>
+                                <!-- <div class="form-group">
+                                	<label>Confirm password</label>
+                                    <input type="password" class=" form-control" id="password2" placeholder="Confirm password">
+                                </div> -->
+                                <div id="pass-info" class="clearfix"></div>
+                                <button class="btn_full" on-click('doRegister')>Registrar</button>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+</section>
