@@ -2,12 +2,10 @@ const Paypal = require('paypal-express-checkout-simple');
 let router = require('koa-router'),
 	views = require('co-views'),
 	bodyParser = require('koa-bodyparser'),
-	Auth = require('./utils/auth.js'),
 	_ = require('lodash'),
     compress  = require('koa-compress'),
     marko     = require('marko'),
 	request = require('koa-request'),
-    User     = require('./api/users/'),
 	PayPal2 = require('paypal-express-checkout');
 
 	var viewsRouter = router();
@@ -94,7 +92,7 @@ let router = require('koa-router'),
 		  }
 		})
 		this.type = 'text/html'
-//	})
+	})
 //	
 //	viewsRouter.get('/confirmation',function*(){
 //	console.log(this.req.url);
@@ -239,3 +237,4 @@ let router = require('koa-router'),
 	})
 
 module.exports = viewsRouter;
+		
